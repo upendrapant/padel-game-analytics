@@ -3,3 +3,5 @@ venv/
 
 #Misc    
 *.pyc
+.vscode/       
+pyrightconfig.json
