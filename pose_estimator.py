@@ -6,7 +6,9 @@ from mediapipe.tasks.python import vision
 
 class PadelPoseEstimator:
     def __init__(self, model_asset_path='pose_landmarker.task'):
-        base_options = python.BaseOptions(model_asset_path=model_asset_path)
+        base_options = python.BaseOptions(
+            model_asset_path=model_asset_path,
+            delegate=python.BaseOptions.Delegate.GPU)
         options = vision.PoseLandmarkerOptions(
             base_options=base_options,
             running_mode=vision.RunningMode.IMAGE,

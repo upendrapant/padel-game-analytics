@@ -2,7 +2,7 @@ from ultralytics import YOLO
 
 #Loads YOLOv8 model and performs object detection on a frame and returns detections list
 class PadelDetector:
-    def __init__(self, model_path="yolo11m.pt", tracker="bytetrack.yaml", conf=0.6, device='cuda',):
+    def __init__(self, model_path="yolo11m.pt", tracker="bytetrack.yaml", conf=0.4, device='cuda',):
         self.model = YOLO(model_path)
         self.conf = conf
         self.device = device
@@ -26,6 +26,5 @@ class PadelDetector:
                     conf = box.conf[0].item()
                     track_id = box.id.item() if box.id is not None else None
                     if self._is_in_court([x1, y1, x2, y2]):
-                        detections.append({"track_id": track_id, "bbox": [x1, y1, x2, y2], "class": "person", "conf": conf})
-                        
+                        detections.append({"track_id": track_id, "bbox": [x1, y1, x2, y2], "class": "person", "conf": conf})                   
         return detections
