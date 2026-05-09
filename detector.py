@@ -2,7 +2,7 @@ from ultralytics import YOLO
 
 #Loads YOLOv8 model and performs object detection on a frame and returns detections list
 class PadelDetector:
-    def __init__(self, model_path="yolo11m.pt", tracker="bytetrack.yaml", conf=0.5, device='cuda',):
+    def __init__(self, model_path="yolo11m.pt", tracker="bytetrack.yaml", conf=0.6, device='cuda',):
         self.model = YOLO(model_path)
         self.conf = conf
         self.device = device
