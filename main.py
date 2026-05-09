@@ -1,10 +1,14 @@
-from detector import PadelDetector
-from visualizer import PadelVisualizer
-import cv2
-
 import os
+os.environ["GLOG_minloglevel"] = "2"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 os.environ["QT_QPA_PLATFORM"] = "xcb"
 os.environ["QT_LOGGING_RULES"] = "*=false"
+
+
+from detector import PadelDetector
+from visualizer import PadelVisualizer
+from pose_estimator import PadelPoseEstimator
+import cv2
 
 #Load and display video
 cv2.namedWindow("Video",cv2.WINDOW_NORMAL)
@@ -18,6 +22,7 @@ if not cap.isOpened():
     exit()
 
 padel_detector = PadelDetector()
+padel_pose_estimator = PadelPoseEstimator()
 padel_visualizer = PadelVisualizer()
 frame_count = 0
 SKIP = 2
@@ -32,7 +37,8 @@ while cap.isOpened():
         continue
 
     detections = padel_detector.detect(frame)
-    padel_visualizer.draw_detections(frame,detections)
+    detections = padel_pose_estimator.estimate_pose(frame, detections)
+    padel_visualizer.draw_detections(frame,detections)  
 
     cv2.imshow("Video",frame)
     if cv2.waitKey(25) & 0xFF == ord("q"):
@@ -40,3 +46,4 @@ while cap.isOpened():
 
 cap.release()
 cv2.destroyAllWindows()
+padel_pose_estimator.close()

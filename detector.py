@@ -7,7 +7,7 @@ class PadelDetector:
         self.conf = conf
         self.device = device
         self.tracker = tracker
-        self.roi = {"x_min": 350, "x_max": 1450, "y_min": 10, "y_max": 880}
+        self.roi = {"x_min": 200, "x_max": 1750, "y_min": 230, "y_max": 950}
     
     def _is_in_court(self, bbox):
         x1, y1, x2, y2 = bbox
