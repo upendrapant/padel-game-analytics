@@ -8,6 +8,7 @@ os.environ["QT_LOGGING_RULES"] = "*=false"
 
 
 from detector import PadelDetector
+from tracknet_tracker import TrackNetTracker
 from visualizer import PadelVisualizer
 from pose_estimator import PadelPoseEstimator
 import cv2
@@ -24,6 +25,7 @@ if not cap.isOpened():
     exit()
 
 padel_detector = PadelDetector()
+padel_ball_tracker = TrackNetTracker(model_path="model_best.pt")
 padel_pose_estimator = PadelPoseEstimator()
 padel_visualizer = PadelVisualizer()
 
@@ -36,7 +38,8 @@ while cap.isOpened():
     
     detections = padel_detector.detect(frame)
     detections = padel_pose_estimator.estimate_pose(frame, detections)
-    padel_visualizer.draw_detections(frame,detections)  
+    ball_coords = padel_ball_tracker.track_ball(frame)
+    padel_visualizer.draw_detections(frame, detections, ball_coords)  
 
     cv2.imshow("Video",frame)
     if cv2.waitKey(25) & 0xFF == ord("q"):

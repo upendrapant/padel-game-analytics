@@ -12,7 +12,7 @@ class PadelVisualizer:
             (29, 31), (30, 32), (27, 31), (28, 32)
         ]
 
-    def draw_detections(self,frame,detections):
+    def draw_detections(self, frame, detections, ball_coords=None):
         for det in detections:
             track_id = det.get("track_id")
             x1, y1, x2, y2 = det["bbox"]
@@ -44,4 +44,17 @@ class PadelVisualizer:
                     if kp["visibility"] > 0.5:
                         pt = (int(kp["x"]), int(kp["y"]))
                         cv2.circle(frame, pt, 3, (0, 0, 255), -1)
+                        
+        # Ball status text
+        ball_status = "Ball: Detected" if ball_coords else "Ball: Not Detected"
+        status_color = (0, 255, 0) if ball_coords else (0, 0, 255)
+        cv2.putText(frame, ball_status, (10, 70), cv2.FONT_HERSHEY_SIMPLEX, 1, status_color, 2)
+        
+        if ball_coords:
+            cx, cy = int(ball_coords[0]), int(ball_coords[1])
+            # Draw a highly visible yellow circle for the ball
+            cv2.circle(frame, (cx, cy), 6, (0, 255, 255), -1)
+            cv2.circle(frame, (cx, cy), 8, (0, 0, 0), 2) # Black outline
+            cv2.putText(frame, "Ball", (cx - 15, cy - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
+            
         return frame        
