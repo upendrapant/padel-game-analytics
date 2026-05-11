@@ -14,7 +14,7 @@ import cv2
 
 #Load and display video
 cv2.namedWindow("Video",cv2.WINDOW_NORMAL)
-cv2.resizeWindow("Video",800,600)
+cv2.resizeWindow("Video",1280,720)
 
 video_path = "/home/decimal/Downloads/input_sample_video.mp4"
 cap = cv2.VideoCapture(video_path)
@@ -26,18 +26,14 @@ if not cap.isOpened():
 padel_detector = PadelDetector()
 padel_pose_estimator = PadelPoseEstimator()
 padel_visualizer = PadelVisualizer()
-frame_count = 0
-SKIP = 2
+
 
 #Perfroms detections on every frame and draws bounding boxes around the detected objects and displays the video
 while cap.isOpened():
     ret, frame = cap.read()
-    frame_count += 1
     if not ret:
         break
-    if frame_count % SKIP !=0:
-        continue
-
+    
     detections = padel_detector.detect(frame)
     detections = padel_pose_estimator.estimate_pose(frame, detections)
     padel_visualizer.draw_detections(frame,detections)  
