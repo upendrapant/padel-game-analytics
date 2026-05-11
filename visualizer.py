@@ -22,6 +22,10 @@ class PadelVisualizer:
             cv2.rectangle(frame,(int(x1),int(y1)),(int(x2),int(y2)),(0,255,0),2)
             cv2.putText(frame,label,(int(x1),int(y1)-10),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,0),2)
 
+            shot_type = det.get("shot_type")
+            if shot_type:
+                cv2.putText(frame, shot_type, (int(x1), int(y1) - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+
             #Court bounds and players count
             cv2.rectangle(frame, (200, 230), (1750, 950), (255, 0, 0), 2)
             cv2.putText(frame, f"Players in court: {len(detections)}", 

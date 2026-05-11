@@ -1,11 +1,9 @@
 #Virtual Environment     
 venv/
 
-#models
-*.pt
-*.task
-
 #Misc    
 *.pyc
 .vscode/       
 pyrightconfig.json
+*.csv
+*.json
